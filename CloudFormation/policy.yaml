@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Create EC2 Full Access Policy and Attach to an Existing User
+
+Parameters:
+  TargetUserName:
+    Type: String
+    Description: Name of the existing IAM User
+    Default: user_test_EC2_fullAccess
+
+Resources:
+  EC2FullAccessPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: EC2FullAccessPolicyForUserTest
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - ec2:*
+            Resource: "*"
+      Users:
+        - !Ref TargetUserName
+
+Outputs:
+  PolicyArn:
+    Description: ARN of the created EC2 FullAccess policy
+    Value: !Ref EC2FullAccessPolicy
